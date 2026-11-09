@@ -27,7 +27,7 @@ img{max-width:100%}
 body{background:var(--bg) radial-gradient(ellipse at 50% 30%,#08202a 0%,var(--bg) 70%);color:var(--ink);font-family:var(--f-mono);overflow:hidden;font-size:14px}
 *{box-sizing:border-box}
 button,input{font:inherit;color:inherit}
-#app{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:8px;
+#app{height:100%;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:8px;
   padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-block:8px}
 
 /* chamfered instrument panel: outer layer is the border colour, inner layer the face */
@@ -151,6 +151,18 @@ details ul{margin:10px 0 0;padding-left:18px;line-height:1.6;color:var(--ink);fo
   .gauge{width:46px;height:46px}
   .key.big{padding:12px 14px}
   .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:520px){
+  .hud-top{grid-template-columns:minmax(0,1fr) auto}
+  .plate .in{padding-right:10px} .plate .tag{display:none}
+  .logo{font-size:12px;letter-spacing:.22em}
+  .keys .in{gap:4px;padding:5px 6px}
+  .keys .key{padding:6px 7px;font-size:9px;letter-spacing:.08em}
+  .deck{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .deck .panel .in{gap:8px;padding:6px 8px}
+  .key.big{padding:10px 10px;font-size:11px;letter-spacing:.16em}
+  .tubes b{width:10px;height:26px}
+  .bar-row{grid-template-columns:7ch minmax(0,1fr) 4ch;gap:6px}
 }
 @media (prefers-reduced-motion:reduce){.shock,.sh-tag.on,.key.nuke.on,#coord::after{animation:none}}
 </style>
@@ -439,8 +451,8 @@ function buildLabels(){
   const o=-0.55;
   for(let k=0;k<A.nF;k++){ const x=-A.W/2+(k+0.5)*A.cs; add(String(k+1), new T.Vector3(x,-o,nz),'col'); add(String(k+1), new T.Vector3(-x,A.H+o,nz),'col'); }
   for(let k=0;k<A.nS;k++){ const y=(k+0.5)*A.cs; add(String(k+1), new T.Vector3(A.W/2+o,y,nz),'row'); add(String(k+1), new T.Vector3(-A.W/2-o,A.H-y,nz),'row'); }
-  add(`${A.nu}×${A.nv} · ${A.tris.length}▲`, new T.Vector3((G.me==='A'?-1:1)*(A.W/2-0.35),A.H-1.5,nz+0.01*(G.me==='A'?1:-1)),'corner tl');
-  add(`${WALLNAME[0]} · WANDEN · ${WALLNAME[2]}`, new T.Vector3((G.me==='A'?1:-1)*(A.W/2-0.35),A.H-1.5,nz+0.01*(G.me==='A'?1:-1)),'corner tr');
+  add(`${A.nu}×${A.nv} · ${A.tris.length}▲`, new T.Vector3((G.me==='A'?1:-1)*(A.W/2-0.35),A.H-1.5,nz+0.01*(G.me==='A'?1:-1)),'corner tl');
+  add(`${WALLNAME[0]} · WANDEN · ${WALLNAME[2]}`, new T.Vector3((G.me==='A'?-1:1)*(A.W/2-0.35),A.H-1.5,nz+0.01*(G.me==='A'?1:-1)),'corner tr');
   const fz=farZ(), sx = G.me==='A' ? -A.W/2+0.4 : A.W/2-0.4;
   FACE.label = add('', new T.Vector3(sx, A.H-0.3, fz),'screen');
   setScreenLabel();
